@@ -8,12 +8,17 @@ spec:
   containers:
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
-    args: ["--dockerfile=/workspace/Dockerfile",
-            "--context=dir://workspace",
-            "--destination=vfarcic/devops-toolkit:1.0.0"]
+    args: ["--context=dir://kaniko-demo",
+           "--dockerfile=/kaniko-demo/Dockerfile",
+            "--destination=brajputbrinda/devops-toolkit:1.0.1"]
     volumeMounts:
       - name: kaniko-secret
         mountPath: /kaniko/.docker
+      - name: my-volume
+        mountPath: /data
+    command: ["/bin/sh"]
+    args: ["-c", "git clone https://github.com/myusername/myrepo.git /source && cp -R /source/. /data/"]
+
   restartPolicy: Never
   volumes:
     - name: kaniko-secret
@@ -22,4 +27,7 @@ spec:
         items:
           - key: .dockerconfigjson
             path: config.json
+    - name: my-volume
+      persistentVolumeClaim:
+        claimName: my-pvc
 
