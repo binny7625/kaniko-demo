@@ -9,6 +9,7 @@ spec:
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
     args: ["--context=dir://C:/Users/BRajput/Documents/git-project-kaniko/kaniko-demo",
+           "--dockerfile=C:/Users/BRajput/Documents/git-project-kaniko/kaniko-demo/Dockerfile",
             "--destination=brajputbrinda/devops-toolkit:1.0.1"]
     volumeMounts:
       - name: kaniko-secret
